@@ -14,8 +14,7 @@ public class Team {
     @Column(name = "TEAM_NAME")
     private String teamName;
 
-    @OneToMany(mappedBy = "team") // -> 연관관계 주인 지정, 실제 DB엔 없는 속성
-    //@JoinColumn(name = "TEAM_ID")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL) // -> 영속성 전이 활성화
     private List<Member> members = new ArrayList<Member>();
 
     public Team(){
@@ -43,5 +42,11 @@ public class Team {
     }
 
 
+
+    // 연관관계 편의 메서드
+    public void addMember(Member member){
+        members.add(member); // 리스트에 저장
+        member.setTeam(this); //
+    }
 
 }

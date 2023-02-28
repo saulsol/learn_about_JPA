@@ -40,4 +40,11 @@ public class Product {
     public List<MemberProduct> getMemberProducts() {
         return memberProducts;
     }
+
+
+
+
+
+
+
 }

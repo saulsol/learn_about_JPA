@@ -23,7 +23,7 @@ public class Member {
     private Team team;
 
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     List<MemberProduct> memberProducts = new ArrayList<>();
 
 

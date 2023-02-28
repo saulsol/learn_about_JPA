@@ -16,48 +16,31 @@ public class jpaMain {
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin(); // 트랜잭션 시작
 
-
         try{
+            Team team = new Team();
+            team.setTeamName("TEAM_A");
+            entityManager.persist(team); // List<Member> members 도 저장
 
-            Member member1 = new Member();
-            member1.setUserName("LIM");
-            entityManager.persist(member1);
-
-
-            Member member2 = new Member();
-            member2.setUserName("LEE");
-            entityManager.persist(member2);// member1 객체 영속성 컨텍스트에 저장
-
-            Team team1 = new Team();
-            team1.setTeamName("TEAM_A");
-            entityManager.persist(team1);
-
-            Team team2 = new Team();
-            team2.setTeamName("TEAM_B");
-            entityManager.persist(team2);
+            Member member = new Member();
+            member.setUserName("LIM");
+            entityManager.persist(member); // 1차 캐시
 
 
-            member1.setTeam(team1);
-            member2.setTeam(team2);
+            team.addMember(member); // 연관관계 편의 메소드
 
-            entityManager.flush();
-            entityManager.clear();
+            System.out.println("--------------------");
+            entityManager.flush(); // DB 와 영속성 컨텍스트 동기화
+            entityManager.clear(); // 영속성 컨텍스트 클리어. DB로 부터 새로운 값 갖고온다(SELECT 쿼리 발송)
+            System.out.println("--------------------");
 
-            System.out.println("-----------------LAZY LOADING START----------------------");
+            Team findTeam = entityManager.find(Team.class, team.getId()); // 1차 캐시
+            List<Member> members = findTeam.getMembers();
 
-            List<Member> members = entityManager.createQuery("SELECT m FROM Member m join fetch m.team", Member.class)
-                            .getResultList(); // Member List 불러오는 JPQL
-
-
-            for (Member member : members) {
-                System.out.println("member : "+ member.getTeam().getTeamName());
+            System.out.println("======================================");
+            for (Member m : members) {
+                System.out.println("m = " + m.getUserName());
             }
-                
-            System.out.println("-----------------LAZY LOADING FIN----------------------");
-
-
-
-
+            System.out.println("======================================");
 
             entityTransaction.commit(); // 트랜잭션 커밋
 
