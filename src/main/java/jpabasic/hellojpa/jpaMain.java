@@ -23,12 +23,27 @@ public class jpaMain {
 
             Member member = new Member();
             member.setUserName("LIM");
-            entityManager.persist(member); // 1차 캐시
+            System.out.println("------------insert?-------------");
+            entityManager.persist(member); // 1차 캐시(영속성에 저장)
+            System.out.println("------------insert?-------------");
 
 
             team.addMember(member); // 연관관계 편의 메소드
 
+
+
+
+            System.out.println("--------is SAME?------------");
+            Member savedMember = entityManager.find(Member.class, member.getId());
+            System.out.println(member.getId());
+            System.out.println(savedMember.getId());
             System.out.println("--------------------");
+
+
+
+
+
+            System.out.println("---------flush--------");
             entityManager.flush(); // DB 와 영속성 컨텍스트 동기화
             entityManager.clear(); // 영속성 컨텍스트 클리어. DB로 부터 새로운 값 갖고온다(SELECT 쿼리 발송)
             System.out.println("--------------------");
