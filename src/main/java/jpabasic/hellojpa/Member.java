@@ -16,6 +16,12 @@ public class Member {
 
     @Column(name = "USER_NAME")
     private String userName;
+
+    @Embedded
+    private Address address;
+
+    @Embedded
+    private Period period;
     
     //Team 참조 변수 생성
     @ManyToOne(fetch = FetchType.LAZY) // 즉시 로딩

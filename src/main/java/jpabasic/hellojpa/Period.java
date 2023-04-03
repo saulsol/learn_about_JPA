@@ -14,7 +14,19 @@ public class Period {
     @Temporal(TemporalType.DATE)
     Date endDate;
 
+    public Date getStartDate() {
+        return startDate;
+    }
 
+    public Date getEndDate() {
+        return endDate;
+    }
 
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }
